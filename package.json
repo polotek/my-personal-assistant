@@ -1,0 +1,30 @@
+{
+  "name": "my-personal-assistant",
+  "version": "0.0.1",
+  "description": "An assistant bot to automate various tasks",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node --experimental-modules index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polotek/my-personal-assistant.git"
+  },
+  "author": "Marco Rogers",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/polotek/my-personal-assistant/issues"
+  },
+  "homepage": "https://github.com/polotek/my-personal-assistant#readme",
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.0",
+    "express": "^4.18.2",
+    "googleapis": "^126.0.1",
+    "openai": "^4.4.0"
+  },
+  "type": "module"
+}
