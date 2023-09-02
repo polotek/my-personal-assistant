@@ -125,13 +125,14 @@ async function askAssistant(prompt, config) {
     const funcMessages = collectFunctionMessages(res.choices, config);
     console.debug("Completing chat with functions...");
     console.debug(funcMessages);
+    messages.push(...funcMessages);
     res = await openai.chat.completions.create({
       ...config,
-      messages: messages.concat(funcMessages),
+      messages: messages,
     });
   }
 
-  return res;
+  return [res, messages];
 }
 
 export default askAssistant;
