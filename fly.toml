@@ -1,0 +1,20 @@
+# fly.toml app configuration file generated for tyrone on 2023-09-01T16:13:04-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "tyrone"
+primary_region = "sjc"
+
+[build]
+
+[env]
+  OPENAI_API_KEY = "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"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
