@@ -29,6 +29,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.4.8"
+    "@flydotio/dockerfile": "^0.4.8",
+    "nodemon": "^3.0.1"
   }
 }

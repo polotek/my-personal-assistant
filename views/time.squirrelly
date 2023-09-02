@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tyrone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form method="POST" action="/assistant">
+            <div class="mb-3">
+                <label for="prompt" class="form-label">Prompt:</label>
+                <input type="text" class="form-control" id="prompt" aria-describedby="promptHelp" value="{{it.prompt}}"
+                    placeholder="Enter prompt">
+            </div>
+            <div class="mb-3">
+                <label for="response" class="form-label">Response</label>
+                <textarea class="form-control" id="response" rows="3" value="{{it.response}}"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

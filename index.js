@@ -13,21 +13,23 @@ app.get("/time", async (req, res, next) => {
   askAssistant(prompt)
     .then(([response, messages]) => [response.choices, messages])
     .then(([choices, messages]) => {
-      console.log(choices);
-      res.send(choices[0].message.content);
+        res.render("time", {
+          prompt: messages[1].content,
+          response: choices[0].message.content,
+        });
     })
     .catch(next);
 });
 
 app.get("/time/:timezone", async (req, res, next) => {
-  const prompt = `What time is it in ${req.params.timezone}?`;
+  const prompt = `What time is it in ${req.params.timezone}? Don't forget to specify AM or PM.`;
   askAssistant(prompt)
     .then(([response, messages]) => [response.choices, messages])
     .then(([choices, messages]) => {
-      const content = `${messages[1].content}
-      
-      ${choices[0].message.content}`;
-      res.send(content);
+      res.render("time", {
+        prompt: messages[1].content,
+        response: choices[0].message.content,
+      });
     })
     .catch(next);
 });
