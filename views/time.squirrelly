@@ -19,8 +19,8 @@
                     placeholder="Enter prompt">
             </div>
             <div class="mb-3">
-                <label for="response" class="form-label">Response</label>
-                <textarea class="form-control" id="response" rows="3" value="{{it.response}}"></textarea>
+                <p>Response:</p>
+                <p><code>{{it.response}}</code></p>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
