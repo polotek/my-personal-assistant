@@ -1,4 +1,5 @@
 import getClient from "./openai.js";
+import { authorize, getTodaysEvents } from "../integrations/google.js";
 
 const openai = getClient();
 
@@ -20,8 +21,20 @@ const CHAT_FUNCTIONS = [
     },
   },
   {
-    func: function get_todays_schedule(params) {
-      return "- 3:00pm - Event planning - John";
+    func: async function get_todays_schedule(params) {
+      return authorize()
+        .then(getTodaysEvents)
+        .then((events) => {
+          return events
+            .map((event) => {
+              const start = new Date(event.start.dateTime);
+              const end = new Date(event.end.dateTime);
+              return `- ${start.toLocaleTimeString("en-US")} - ${
+                event.summary
+              } - ${event.attendees}`;
+            })
+            .join("\n");
+        });
     },
     name: "get_todays_schedule",
     description: "Get the schedule for today",
