@@ -131,3 +131,7 @@ dist
 
 # fly.io
 fly.toml
+
+# integrations
+credentials.json
+token.json
