@@ -132,6 +132,9 @@ async function askAssistant(prompt, config) {
     });
   }
 
+  console.log("Final response:");
+  console.log(res.choices);
+
   return [res, messages];
 }
 
