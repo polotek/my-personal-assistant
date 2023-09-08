@@ -31,7 +31,7 @@ app.get("/time", function (req, res, next) {
   askAssistant(prompt)
     .then(([response, messages]) => [response.choices, messages])
     .then(([choices, messages]) => {
-      res.render("time", {
+      res.render("chat", {
         prompt: messages[1].content,
         response: choices[0].message.content,
       });
@@ -40,7 +40,7 @@ app.get("/time", function (req, res, next) {
 });
 
 app.get("/schedule", function (req, res, next) {
-  res.render("time", {
+  res.render("chat", {
     prompt: "Give me a summary of my schedule for today.",
     response: "",
   });
@@ -52,7 +52,7 @@ app.post("/schedule", function (req, res, next) {
   return askAssistant(prompt)
     .then(([response, messages]) => [response.choices, messages])
     .then(([choices, messages]) => {
-      res.render("time", {
+      res.render("chat", {
         prompt: messages[1].content,
         response: choices[0].message.content,
       });
