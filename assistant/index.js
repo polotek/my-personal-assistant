@@ -19,6 +19,17 @@ const CHAT_FUNCTIONS = [
       properties: {},
     },
   },
+  {
+    func: function get_todays_schedule(params) {
+      return "- 3:00pm - Event planning - John";
+    },
+    name: "get_todays_schedule",
+    description: "Get the schedule for today",
+    parameters: {
+      type: "object",
+      properties: {},
+    },
+  },
 ];
 const funcProperties = CHAT_FUNCTIONS.map(function (chatFunc) {
   chatFunc = { ...chatFunc };
@@ -57,7 +68,7 @@ function getChatFunction(choice) {
   );
 }
 
-function execChatFunction(chatFunc, choice) {
+async function execChatFunction(chatFunc, choice) {
   const args = JSON.parse(choice.message.function_call.arguments);
   return chatFunc.func(args);
 }
@@ -76,27 +87,26 @@ function shouldCallFunctions(choices) {
  * @param {*} config
  * @returns
  */
-function collectFunctionMessages(choices) {
-  return choices
-    .filter(isFunctionCall)
-    .map(function (choice) {
-      const chatFunc = getChatFunction(choice);
-      if (!chatFunc) {
-        throw new Error(
-          `Invalid Chat function: ${choice.message.function_call}`
-        );
-      }
+async function collectFunctionMessages(choices) {
+  const functionCalls = choices.filter(isFunctionCall);
+  const functionResults = [];
+  for (let choice of functionCalls) {
+    const chatFunc = getChatFunction(choice);
+    if (!chatFunc) {
+      throw new Error(`Invalid Chat function: ${choice.message.function_call}`);
+    }
 
-      return [
-        choice.message,
-        {
-          role: "function",
-          name: choice.message.function_call.name,
-          content: execChatFunction(chatFunc, choice),
-        },
-      ];
-    })
-    .flat();
+    const result = await execChatFunction(chatFunc, choice);
+    // Don't forget to include the original message
+    functionResults.push(choice.message);
+    functionResults.push({
+      role: "function",
+      name: choice.message.function_call.name,
+      content: result,
+    });
+  }
+
+  return functionResults;
 }
 
 async function askAssistant(prompt, config) {
@@ -122,7 +132,7 @@ async function askAssistant(prompt, config) {
   console.debug(res.choices);
 
   if (shouldCallFunctions(res.choices)) {
-    const funcMessages = collectFunctionMessages(res.choices, config);
+    const funcMessages = await collectFunctionMessages(res.choices, config);
     console.debug("Completing chat with functions...");
     console.debug(funcMessages);
     messages.push(...funcMessages);

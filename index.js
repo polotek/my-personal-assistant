@@ -17,6 +17,9 @@ function validateInput(input) {
 const app = express();
 app.set("view engine", "squirrelly");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", function (req, res) {
   res.send("Hello World!");
 });
@@ -26,6 +29,27 @@ app.get("/time", function (req, res, next) {
   const addendum = loc ? ` in ${loc}` : "";
   const prompt = `What time is it${addendum}? Don't forget to specify AM or PM.`;
   askAssistant(prompt)
+    .then(([response, messages]) => [response.choices, messages])
+    .then(([choices, messages]) => {
+      res.render("time", {
+        prompt: messages[1].content,
+        response: choices[0].message.content,
+      });
+    })
+    .catch(next);
+});
+
+app.get("/schedule", function (req, res, next) {
+  res.render("time", {
+    prompt: "Give me a summary of my schedule for today.",
+    response: "",
+  });
+});
+
+app.post("/schedule", function (req, res, next) {
+  const prompt = req.body.prompt;
+
+  return askAssistant(prompt)
     .then(([response, messages]) => [response.choices, messages])
     .then(([choices, messages]) => {
       res.render("time", {

@@ -12,10 +12,10 @@
 
 <body>
     <div class="container">
-        <form method="POST" action="/assistant">
+        <form method="POST" action="/schedule">
             <div class="mb-3">
                 <label for="prompt" class="form-label">Prompt:</label>
-                <input type="text" class="form-control" id="prompt" aria-describedby="promptHelp" value="{{it.prompt}}"
+                <input id="prompt" name="prompt" type="text" class="form-control" aria-describedby="promptHelp" value="{{it.prompt}}"
                     placeholder="Enter prompt">
             </div>
             <div class="mb-3">
